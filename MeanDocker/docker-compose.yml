@@ -1,0 +1,28 @@
+# https://scotch.io/tutorials/create-a-mean-app-with-angular-2-and-docker-compose
+version: '2'
+# Define the services/containers to be run
+services:
+  angular: # Service 1
+    build: angular-client # specify the directory of the Dockerfile
+    image: angular-client
+    ports: 
+      - "4200:4200"
+
+  express: # Service 2
+    build: express-server # specify the directory of the Dockerfile
+    image: express-server
+    ports: 
+      - "8080:8080" #specify ports forewarding
+    links:
+      - database # link this service to the database service
+
+  database: # Service 3
+    image: mongo # specify image to build container from
+    ports:
+      - "27017:27017" # specify port forewarding
+
+
+#BUILD run this command to build
+# docker-compose up --build
+# The --build flag tells docker compose that we've made changes 
+# and it needs to do a clean build of our images.
